@@ -129,7 +129,7 @@ public class Entry {
         String[] ymd = endDate.toString().split("-");
 
         calendar.set(Integer.parseInt(ymd[0]),
-            Integer.parseInt(ymd[1]),
+            Integer.parseInt(ymd[1]) - 1,
             Integer.parseInt(ymd[2]));
 
         int countOfWeeks = calendar.get(Calendar.WEEK_OF_MONTH);
@@ -153,7 +153,7 @@ public class Entry {
         ymd = startDate.toString().split("-");
 
         calendar.set(Integer.parseInt(ymd[0]),
-            Integer.parseInt(ymd[1]),
+            Integer.parseInt(ymd[1]) - 1,
             Integer.parseInt(ymd[2]));
         int weekInMonth = calendar.get(Calendar.WEEK_OF_MONTH);
 
@@ -173,6 +173,7 @@ public class Entry {
                 weekInMonth = calendar.get(Calendar.WEEK_OF_MONTH);
             }
         }
+        hoursInWeek.set(weekInMonth - 1, sumOfHoursInWeek);
 
         for (int i = 1; i <= hoursInWeek.size(); i++) {
             if (hoursInWeek.get(i - 1) < 40) {
@@ -216,7 +217,7 @@ public class Entry {
         String[] ymd = endDate.toString().split("-");
 
         calendar.set(Integer.parseInt(ymd[0]),
-            Integer.parseInt(ymd[1]),
+            Integer.parseInt(ymd[1]) - 1,
             Integer.parseInt(ymd[2]));
 
         int countOfWeeks = calendar.get(Calendar.WEEK_OF_MONTH);
@@ -240,7 +241,7 @@ public class Entry {
         ymd = startDate.toString().split("-");
 
         calendar.set(Integer.parseInt(ymd[0]),
-            Integer.parseInt(ymd[1]),
+            Integer.parseInt(ymd[1]) - 1,
             Integer.parseInt(ymd[2]));
         int weekInYear = calendar.get(Calendar.WEEK_OF_YEAR);
 
