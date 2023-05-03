@@ -7,15 +7,13 @@
 </head>
 <body>
 <header th:insert="header::header"></header>
-<form action="#" th:action="@{/login}" th:object="${redmine}" method="post">
-  <p>URL: <input type="url" th:field="*{URL}" /></p>
-  <p>api: <input type="text" th:field="*{api}" /></p>
-  <p><input type="submit" value="Submit" /> <input type="reset" value="Reset" /></p>
-</form>
+
+<ul  th:each="entry : ${timeentries}">
+  <li>
+    <p th:text="${entry}"></p>
+  </li>
+</ul>
+
 <footer th:insert="footer::footer"></footer>
 </body>
 </html>
-
-
-
-
