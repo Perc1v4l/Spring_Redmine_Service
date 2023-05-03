@@ -1,10 +1,8 @@
 package com.example.demo.controllers;
 
 import com.example.demo.dao.EntryListDao;
-import com.example.demo.dao.TaskListDao;
 import com.example.demo.models.Redmine;
-import com.example.demo.models.Task;
-import com.example.demo.models.TimeEntry;
+import com.example.demo.models.Entry;
 import com.taskadapter.redmineapi.RedmineException;
 import com.taskadapter.redmineapi.RedmineManager;
 import com.taskadapter.redmineapi.bean.User;
@@ -33,7 +31,7 @@ public class TimeEntryController {
 
         List<User> users = mgr.getUserManager().getUsers();
 
-        TimeEntry timeentry = new TimeEntry();
+        Entry timeentry = new Entry();
 
         model.addAttribute("title", "Задачи");
         model.addAttribute("users", users);
@@ -43,7 +41,7 @@ public class TimeEntryController {
     }
 
     @PostMapping("/addtimeentry/{id}")
-    public String inpForTimeEntry(@ModelAttribute TimeEntry timeEntry, @PathVariable int id, Model model) {
+    public String inpForTimeEntry(@ModelAttribute Entry timeEntry, @PathVariable int id, Model model) {
         EntryListDao entryListDao = new EntryListDao();
         entryListDao.save(timeEntry);
         model.addAttribute("id", id);
@@ -59,7 +57,7 @@ public class TimeEntryController {
         model.addAttribute("title", "Трудозатраты");
 
         EntryListDao entryListDao = new EntryListDao();
-        TimeEntry timeEntry = entryListDao.getLast().orElse(null);
+        Entry timeEntry = entryListDao.getLast().orElse(null);
 
         switch (id) {
             case 1 -> {

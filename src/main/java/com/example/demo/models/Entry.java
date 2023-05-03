@@ -3,6 +3,7 @@ package com.example.demo.models;
 import com.taskadapter.redmineapi.RedmineException;
 import com.taskadapter.redmineapi.RedmineManager;
 import com.taskadapter.redmineapi.TimeEntryManager;
+import com.taskadapter.redmineapi.bean.TimeEntry;
 import org.javatuples.Pair;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -14,26 +15,26 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 
-public class TimeEntry {
+public class Entry {
     private String user_id;
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date startDate;
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date endDate;
 
-    public TimeEntry()
+    public Entry()
     {
         this.user_id = "";
         this.startDate = new Date();
     }
 
-    public TimeEntry(String user_id, Date startDate, Date endDate)
+    public Entry(String user_id, Date startDate, Date endDate)
     {
         this.user_id = user_id;
         this.startDate = startDate;
         this.endDate = endDate;
     }
-    public TimeEntry(String user_id, String month, String year) throws ParseException {
+    public Entry(String user_id, String month, String year) throws ParseException {
         this.user_id = user_id;
         this.startDate = inputDate(Integer.parseInt(year), Integer.parseInt(month), true);
         this.endDate = inputDate(Integer.parseInt(year), Integer.parseInt(month), false);
@@ -64,19 +65,19 @@ public class TimeEntry {
         params.put("user_id", (user_id));
         params.put("from", startDate.toString());
         params.put("to", endDate.toString());
-        List<com.taskadapter.redmineapi.bean.TimeEntry> elements;
+        List<TimeEntry> elements;
         try {
             elements = timeEntryManager.getTimeEntries(params).getResults();
         } catch (RedmineException e) {
             throw new RuntimeException(e);
         }
         elements = elements.stream()
-            .sorted(Comparator.comparing(com.taskadapter.redmineapi.bean.TimeEntry::getSpentOn))
+            .sorted(Comparator.comparing(TimeEntry::getSpentOn))
             .toList();
 
         Map<Date, Float> dateHoursMap = new HashMap<>();
 
-        for (com.taskadapter.redmineapi.bean.TimeEntry element : elements) {
+        for (TimeEntry element : elements) {
             if (dateHoursMap.containsKey(element.getSpentOn())) {
                 float sumWorkTime = element.getHours() +
                     dateHoursMap.get(element.getSpentOn());
@@ -133,14 +134,14 @@ public class TimeEntry {
         params.put("from", startDate.toString());
         params.put("to", endDate.toString());
 
-        List<com.taskadapter.redmineapi.bean.TimeEntry> elements;
+        List<TimeEntry> elements;
         try {
             elements = timeEntryManager.getTimeEntries(params).getResults();
         } catch (RedmineException e) {
             throw new RuntimeException(e);
         }
         elements = elements.stream()
-            .sorted(Comparator.comparing(com.taskadapter.redmineapi.bean.TimeEntry::getSpentOn))
+            .sorted(Comparator.comparing(TimeEntry::getSpentOn))
             .toList();
 
         float sumOfHoursInWeek = 0;
