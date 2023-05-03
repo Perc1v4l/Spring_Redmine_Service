@@ -62,9 +62,13 @@ public class Entry {
         List<String> lessThan8Hours = new ArrayList<>();
 
         final Map<String, String> params = new HashMap<>();
+
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+
+
         params.put("user_id", (user_id));
-        params.put("from", startDate.toString());
-        params.put("to", endDate.toString());
+        params.put("from", dateFormat.format(startDate));
+        params.put("to", dateFormat.format(endDate));
         List<TimeEntry> elements;
         try {
             elements = timeEntryManager.getTimeEntries(params).getResults();
@@ -87,18 +91,18 @@ public class Entry {
             }
         }
 
-        DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy ");
+        DateFormat format = new SimpleDateFormat("dd/MM/yyyy ");
 
         Date date = startDate;
         endDate = addDay(endDate);
         while (!date.equals(endDate)) {
             if (dateHoursMap.containsKey(date)) {
                 if (dateHoursMap.get(date) < 8) {
-                    lessThan8Hours.add("Дата: " + dateFormat.format(date)
+                    lessThan8Hours.add("Дата: " + format.format(date)
                         + "\tКол-во часов: " + dateHoursMap.get(date));
                 }
             } else {
-                lessThan8Hours.add("Дата: " + dateFormat.format(date) + "\tКол-во часов: " + 0);
+                lessThan8Hours.add("Дата: " + format.format(date) + "\tКол-во часов: " + 0);
             }
             date = addDay(date);
         }
